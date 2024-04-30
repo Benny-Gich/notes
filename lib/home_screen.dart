@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:notes/create_note.dart';
 import 'package:notes/side_menu.dart';
 import 'package:notes/note.dart';
 import 'package:intl/intl.dart';
@@ -81,6 +82,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: ListTile(
+                onTap: () async {
+                  final result =
+                      await Navigator.pushNamed(context, '/create_note');
+                  if (result != null) {
+                    setState(() {
+                      sampleNotes.add(Note(
+                          id: sampleNotes.length,
+                          title: result[0],
+                          content: result[1],
+                          modifiedTime: DateTime.now()));
+                      filteredNotes = sampleNotes;
+                    });
+                  }
+                },
                 title: RichText(
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
@@ -173,8 +188,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ]),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/create_note');
+        onPressed: () async {
+          final result = await Navigator.pushNamed(context, '/create_note');
+          if (result != null) {
+            setState(() {
+              sampleNotes.add(Note(
+                  id: sampleNotes.length,
+                  title: result[0],
+                  content: result[1],
+                  modifiedTime: DateTime.now()));
+              filteredNotes = sampleNotes;
+            });
+          }
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(Icons.add),

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CreateNote extends StatefulWidget {
   const CreateNote({super.key});
@@ -8,6 +10,9 @@ class CreateNote extends StatefulWidget {
 }
 
 class _CreateNoteState extends State<CreateNote> {
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _contentController = TextEditingController();
+
   bool typing = false;
 
   @override
@@ -19,16 +24,6 @@ class _CreateNoteState extends State<CreateNote> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         actions: [
-          // TextField(
-          //   decoration: InputDecoration(
-          //     labelText: "Title",
-          //     suffix: IconButton(
-          //       icon: const Icon(Icons.attach_file),
-          //       tooltip: "Attach File",
-          //       onPressed: () {},
-          //     ),
-          //   ),
-          // ),
           IconButton(
             icon: const Icon(Icons.attach_file),
             tooltip: "Attach File",
@@ -45,12 +40,16 @@ class _CreateNoteState extends State<CreateNote> {
             icon: const Icon(Icons.save),
             tooltip: "Save",
             color: Theme.of(context).colorScheme.primary,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(
+                  context, [_titleController.text, _contentController.text]);
+            },
           )
         ],
       ),
       body: Column(children: [
         TextFormField(
+          controller: _titleController,
           style: const TextStyle(fontSize: 25),
           decoration: const InputDecoration(
             hintText: "Title",
@@ -60,6 +59,7 @@ class _CreateNoteState extends State<CreateNote> {
         ),
         const SizedBox(height: 20),
         TextFormField(
+          controller: _contentController,
           style: const TextStyle(fontSize: 20),
           decoration: const InputDecoration(
             hintText: "Your Story To Tell",
