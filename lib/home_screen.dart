@@ -29,7 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
               .toLowerCase()
               .contains(searchText.toLowerCase()))
           .toList();
-      //note.title.toString().toLowerCase().contains(searchText.toLowerCase());
+    });
+  }
+
+  void deleteNote(int index) {
+    setState(() {
+      filteredNotes.removeAt(index);
     });
   }
 
@@ -111,7 +116,55 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 trailing: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        icon: Icon(Icons.info,
+                            color: Theme.of(context).colorScheme.primary),
+                        title: Text(
+                          "Move to Trash?",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary),
+                                child: const SizedBox(
+                                  width: 50,
+                                  child: Text(
+                                    "Yes",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context, false);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red),
+                                child: const SizedBox(
+                                  width: 50,
+                                  child: Text(
+                                    "No",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                      ),
+                    );
+                    deleteNote(index);
+                  },
                   icon: Icon(Icons.delete),
                 ),
               ),
