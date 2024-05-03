@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notes/trash.dart';
+import 'package:notes/home_screen.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
@@ -52,7 +54,8 @@ class _SideMenuState extends State<SideMenu> {
               title: const Text("All Notes"),
               selected: _selectedIndex == 0,
               onTap: () {
-                _onItemTapped(0);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const HomeScreen()));
               }),
           ListTile(
               leading: const Icon(Icons.favorite),
@@ -66,7 +69,9 @@ class _SideMenuState extends State<SideMenu> {
             title: const Text("Trash"),
             selected: _selectedIndex == 2,
             onTap: () {
-              _onItemTapped(2);
+              //_onItemTapped(2);
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => const Trash()));
             },
           ),
         ],
