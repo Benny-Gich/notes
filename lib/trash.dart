@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes/home_screen.dart';
+//import 'package:notes/home_screen.dart';
 
 class Trash extends StatefulWidget {
   const Trash({super.key});

@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:notes/note.dart';
 
 class CreateNote extends StatefulWidget {
-  const CreateNote({super.key});
+  final Note? note;
+  const CreateNote({super.key, this.note});
 
   @override
   State<CreateNote> createState() => _CreateNoteState();
 }
 
 class _CreateNoteState extends State<CreateNote> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _contentController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _contentController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.note != null) {
+      _titleController = TextEditingController(text: widget.note!.title);
+      _contentController = TextEditingController(text: widget.note!.content);
+    }
+    super.initState();
+  }
 
   bool typing = false;
 
@@ -59,6 +70,8 @@ class _CreateNoteState extends State<CreateNote> {
         TextFormField(
           controller: _contentController,
           style: const TextStyle(fontSize: 20),
+          maxLines: null,
+          keyboardType: TextInputType.multiline,
           decoration: const InputDecoration(
             hintText: "Your Story To Tell",
             border: InputBorder.none,

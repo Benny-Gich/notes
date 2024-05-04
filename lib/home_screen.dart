@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:notes/create_note.dart';
 
 import 'package:notes/side_menu.dart';
 import 'package:notes/note.dart';
@@ -85,17 +86,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: ListTile(
                 onTap: () async {
-                  final result =
-                      await Navigator.pushNamed(context, '/create_note');
-                  final results =
-                      ModalRoute.of(context)!.settings.arguments as Map;
-                  if (result != null) {
+                  final result = await Navigator.pushNamed(
+                      context, '/create_note',
+                      arguments: filteredNotes[index]);
+
+                  if (result != null && result is List) {
                     setState(() {
-                      sampleNotes.add(Note(
-                          id: sampleNotes.length,
-                          title: results[0],
-                          content: results[1],
-                          modifiedTime: DateTime.now()));
+                      sampleNotes
+                        ..removeAt(index)
+                        ..insert(
+                            index,
+                            Note(
+                                id: sampleNotes.length,
+                                title: result[0],
+                                content: result[1],
+                                modifiedTime: DateTime.now()));
                       filteredNotes = sampleNotes;
                     });
                   }
@@ -194,13 +199,12 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final result = await Navigator.pushNamed(context, '/create_note');
-          final results = ModalRoute.of(context)!.settings.arguments as String;
-          if (result != null) {
+          if (result != null && result is List) {
             setState(() {
               sampleNotes.add(Note(
                   id: sampleNotes.length,
-                  title: results[0],
-                  content: results[1],
+                  title: result[0],
+                  content: result[1],
                   modifiedTime: DateTime.now()));
               filteredNotes = sampleNotes;
             });
